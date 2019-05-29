@@ -39,7 +39,7 @@ def before_predict(img_byte, size):
     return data
 
 
-def after_predict(pred, characters, captcha_len):
-    res = np.array(pred).reshape((captcha_len, len(characters)))
+def after_predict(pred, characters):
+    res = np.array(pred).reshape((-1, len(characters)))
     res = ''.join([characters[x] for x in np.argmax(res, axis=1)])
     return res

@@ -1,5 +1,5 @@
 import string
-from keras.callbacks import EarlyStopping
+from keras.callbacks import EarlyStopping, TensorBoard
 from keras.models import *
 from keras.layers import *
 from keras.applications import *
@@ -36,7 +36,11 @@ def train():
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     model.fit(x_data, y_data, batch_size=batch_size, epochs=epoch, shuffle=True,
-              validation_split=test_ratio, callbacks=[EarlyStopping(patience=10)])
+              validation_split=test_ratio,
+              callbacks=[
+                  EarlyStopping(patience=5, restore_best_weights=True),
+                  TensorBoard(histogram_freq=1, batch_size=batch_size)
+              ])
 
     model.save(model_name)
 
