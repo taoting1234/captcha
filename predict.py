@@ -10,8 +10,8 @@ from helper import before_predict, after_predict
 
 def predict():
     captcha_characters = string.digits + string.ascii_lowercase  # 验证码字符
-    directory = '/Users/taoting/Desktop/zf'  # 图片路径
-    model_filename = 'zf_model.h5'
+    directory = '/Users/taoting/Desktop/nga'  # 图片路径
+    model_filename = 'nga_model.h5'
     size = (150, 50)
 
     model = load_model(model_filename)

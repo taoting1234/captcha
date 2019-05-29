@@ -39,7 +39,7 @@ def train():
               validation_split=test_ratio,
               callbacks=[
                   EarlyStopping(patience=5, restore_best_weights=True),
-                  TensorBoard(batch_size=batch_size)
+                  TensorBoard(batch_size=batch_size, update_freq='batch')
               ])
 
     model.save(model_name)
