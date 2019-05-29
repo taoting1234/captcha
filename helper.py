@@ -4,7 +4,7 @@ from PIL import Image
 from keras.utils import to_categorical
 
 
-def load_data(directory, characters):
+def load_data(directory, characters, size):
     file_list = os.listdir(directory)
 
     x_data = []
@@ -13,8 +13,8 @@ def load_data(directory, characters):
     for file_name in file_list:
         label = file_name.split('_')[0].lower()
         img = Image.open(os.path.join(directory, file_name))
-        img = img.convert('L')
-        img = img.resize((150, 50))
+        img = img.convert('RGB')
+        img = img.resize(size)
         img_arr = np.array(img)
         img_arr = img_arr.reshape((img_arr.shape[0], img_arr.shape[1], -1))
         x_data.append(img_arr)
@@ -27,7 +27,3 @@ def load_data(directory, characters):
     y_data = [np.array(i) for i in y_data]
 
     return x_data, y_data
-
-
-if __name__ == '__main__':
-    load_data('/Users/taoting/Desktop/zf', 0.1)

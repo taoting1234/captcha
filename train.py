@@ -2,6 +2,7 @@ import string
 from keras.callbacks import EarlyStopping
 from keras.models import *
 from keras.layers import *
+from keras.applications import *
 from helper import load_data
 
 
@@ -9,36 +10,30 @@ def train():
     epoch = 1000  # 训练轮次
     batch_size = 100  # 一次输入的大小
     test_ratio = 0.1  # 测试集比例
+    size = (150, 50)  # 固定尺寸
     captcha_characters = string.digits + string.ascii_lowercase  # 验证码字符
 
     directory = '/Users/taoting/Desktop/zf'  # 图片路径
     model_name = 'zf_model.h5'
 
-    x_data, y_data = load_data(directory, captcha_characters)
+    x_data, y_data = load_data(directory, captcha_characters, size)
     captcha_len = len(y_data)
 
-    inputs = Input(shape=x_data.shape[1:])
+    base_model = ResNet50(input_shape=x_data.shape[1:], include_top=False)
 
-    x = inputs
-    for i in range(3):
-        x = Convolution2D(32 * (2 ** i), (3, 3), activation='relu')(x)
-        x = Convolution2D(32 * (2 ** i), (3, 3), activation='relu')(x)
-        x = MaxPooling2D((2, 2))(x)
+    x = base_model.output
 
-    x = Reshape((-1, 128))(x)
-    x = Bidirectional(GRU(128, return_sequences=True))(x)
-    x = Flatten()(x)
+    x = GlobalAveragePooling2D()(x)
 
-    x = Dense(len(captcha_characters))(x)
     x = Dropout(0.25)(x)
     x = [Dense(len(captcha_characters), activation="softmax", name="x{}".format(i))(x)
          for i in range(captcha_len)]
 
-    model = Model(inputs=inputs, outputs=x)
+    model = Model(inputs=base_model.input, outputs=x)
 
     model.summary()
 
-    model.compile(loss='categorical_crossentropy', optimizer='adadelta', metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     model.fit(x_data, y_data, batch_size=batch_size, epochs=epoch, shuffle=True,
               validation_split=test_ratio, callbacks=[EarlyStopping(patience=10)])
