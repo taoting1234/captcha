@@ -1,9 +1,10 @@
 import string
-from keras.callbacks import EarlyStopping, TensorBoard
-from keras.models import *
-from keras.layers import *
-from keras.applications import *
+
 from helper import load_data
+from keras.applications import *
+from keras.callbacks import EarlyStopping, TensorBoard
+from keras.layers import *
+from keras.models import *
 
 
 def train():

@@ -1,11 +1,12 @@
 import os
 import random
 import string
-import numpy as np
 from io import BytesIO
-from keras.models import load_model
 
-from helper import before_predict, after_predict
+import numpy as np
+
+from helper import after_predict, before_predict
+from keras.models import load_model
 
 
 def predict():

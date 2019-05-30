@@ -1,7 +1,9 @@
 import os
+
 import numpy as np
-from PIL import Image
+
 from keras.utils import to_categorical
+from PIL import Image
 
 
 def load_data(directory, characters, size):
