@@ -17,7 +17,7 @@ def load_data(directory, characters, size):
         img = Image.open(os.path.join(directory, file_name))
         img = img.convert('RGB')
         img = img.resize(size)
-        x_data.append(img)
+        x_data.append(np.array(img))
         y_data.append([to_categorical(characters.find(label[i]), len(characters)) for i in range(len(label))])
 
     x_data = np.array(x_data) / 255
@@ -33,7 +33,7 @@ def before_predict(img_byte, size):
     img = Image.open(img_byte)
     img = img.convert('RGB')
     img = img.resize(size)
-    data = np.array(img) / 255
+    data = np.array(np.array(img)) / 255
     return data
 
 

@@ -14,7 +14,7 @@ def train():
     size = (150, 50)  # 固定尺寸
     captcha_characters = string.digits + string.ascii_lowercase  # 验证码字符
 
-    directory = '/Users/taoting/Desktop/zf'  # 图片路径
+    directory = r'C:\Users\taoti\Desktop\zf\zf'  # 图片路径
     model_name = 'zf_model.h5'
 
     x_data, y_data = load_data(directory, captcha_characters, size)
